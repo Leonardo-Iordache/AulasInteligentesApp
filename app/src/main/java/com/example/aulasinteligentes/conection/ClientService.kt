@@ -6,13 +6,18 @@ import retrofit2.Response
 import retrofit2.http.*
 
 interface ClientService {
-    @POST("RUTA")
+    @POST("UbicompServerExampleT10/registrarNuevoUsuario")
     suspend fun createNewUser(@Body usuario: User): Call<Int>
 
-    @POST("RUTA")
+    @GET("UbicompServerExampleT10/registrarNuevoUsuario")
+    suspend fun getNewUser(): Response<Int>
+
+    @POST("validarInicioSesion")
     suspend fun checkUser(@Body usuario: User): Call<Boolean>
 
-    @GET("RUTA")
+    @GET("")
     suspend fun getTemperatures(): Response<ArrayList<Temperatures>>
 
+    @GET("RUTA")
+    suspend fun getPrediction(): Response<ArrayList<Temperatures>>
 }

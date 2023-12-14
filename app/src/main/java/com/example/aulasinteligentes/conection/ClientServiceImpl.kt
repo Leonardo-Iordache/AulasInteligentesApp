@@ -8,14 +8,35 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class ClientServiceImpl{
-    private val serverURL = ServiceBuilder.getURL()
+    private val serverUrl = ServiceBuilder.getURL()
     private val retrofit = ServiceBuilder.buildService(ClientService::class.java)
-    suspend fun createNewUser(user: User){
+
+
+    suspend fun getNewUser(): Int{
+        var response = 1
+        Log.d("ClientServiceLLL", "Intentando crear la conexión con $serverUrl")
+
+        val call = retrofit.getNewUser()
+
+        if (call.isSuccessful){
+            val result = call.body()
+            response = result ?: 12
+        }
+        else{
+            Log.d("ClientServiceLLL", "No se ha logrado coger el coso")
+        }
+        return response
+    }
+
+
+    suspend fun createNewUser(user: User): Int{
         val call = retrofit.createNewUser(user)
+        var respuesta = 1
+        Log.d("ClientServiceImpl", "Lo consguimos")
         call.enqueue(object : Callback<Int>{
             override fun onResponse(call: Call<Int>, response: Response<Int>) {
                 if (response.isSuccessful){
-                    val respuesta = response.body()
+                    respuesta = response.body() ?: 2
                 }
                 else{
                     Log.e("ClientServiceImpl", "Error al crear usuario")
@@ -26,6 +47,7 @@ class ClientServiceImpl{
                 Log.e("ClientServiceImpl", "Error de conexion con el servidor")
             }
         })
+        return respuesta
     }
 
     suspend fun validateUser(user: User): Boolean{
