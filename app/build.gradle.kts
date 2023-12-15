@@ -53,6 +53,7 @@ android {
     }
 }
 
+
 dependencies {
 
     implementation("androidx.core:core-ktx:1.9.0")
@@ -78,5 +79,6 @@ dependencies {
     implementation("com.google.code.gson:gson:2.8.9")
     implementation("com.squareup.okhttp3:okhttp:4.7.2")
 
+    implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
 
 }

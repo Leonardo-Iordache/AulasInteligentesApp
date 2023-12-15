@@ -20,4 +20,8 @@ data class Temperatures(
     @SerializedName("valorOut")
     @Expose
     val temperaturaOut: Double
-)
+){
+    override fun toString(): String {
+        return "Temperatures(idAula='$idAula', fecha=$fecha, temperaturaIn=$temperaturaIn, temperaturaOut=$temperaturaOut)"
+    }
+}

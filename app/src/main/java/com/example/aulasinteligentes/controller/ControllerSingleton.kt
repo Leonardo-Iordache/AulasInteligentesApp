@@ -2,9 +2,13 @@ package com.example.aulasinteligentes.controller
 
 import android.content.Intent
 import android.content.Context
+import android.util.Log
 import com.example.aulasinteligentes.conection.ClientServiceImpl
 import com.example.aulasinteligentes.entities.Temperatures
 import com.example.aulasinteligentes.entities.User
+import java.sql.Timestamp
+import java.text.SimpleDateFormat
+import java.util.Locale
 
 object ControllerSingleton {
     private val restApiService = ClientServiceImpl()
@@ -24,4 +28,21 @@ object ControllerSingleton {
     suspend fun createNewUserGet(): Int{
         return restApiService.getNewUser()
     }
+
+    fun parseDate(dateString: String): Timestamp {
+        val dateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
+        var timeStamp = Timestamp(System.currentTimeMillis())
+
+        try {
+            val date = dateFormat.parse(dateString)
+            if (date != null) {
+                timeStamp = Timestamp(date.time)
+            }
+        } catch (e: Exception) {
+            Log.e("DateParser", "Error parsing date: $e")
+        }
+
+        return timeStamp
+    }
+
 }

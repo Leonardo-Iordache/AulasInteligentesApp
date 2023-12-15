@@ -42,8 +42,8 @@ class RegisterActivity : AppCompatActivity() {
 
         confirmButton.setOnClickListener {
             binding.let{
-                usernameInput = it.nameText.toString().trim()
-                emailInput = it.idEmail.toString().trim()
+                usernameInput = it.nameText.text.toString().trim()
+                emailInput = it.idEmail.text.toString().trim()
                 passwordInput = it.password.text.toString().trim()
                 confirmPasswordInput = it.confirmPassword.text.toString().trim()
             }
@@ -65,7 +65,7 @@ class RegisterActivity : AppCompatActivity() {
                 }
             }
             job.invokeOnCompletion {
-                if (respuesta == 0) {
+                if (respuesta == 1) {
                     Log.d("RegistroCompletado", "Se ha completado el registro")
                     val intent = Intent(context, MainScreenActivity::class.java)
                     startActivity(intent)

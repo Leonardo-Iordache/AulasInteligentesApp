@@ -36,7 +36,6 @@
                 android:value="" />
         </activity>
 
-
         <activity
             android:name=".front.mainscreen.MainMenuActivity"
             android:exported="false">
@@ -45,5 +44,12 @@
                 android:value="" />
         </activity>
 
+        <activity
+            android:name=".front.mainscreen.TemperaturesGraphActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
     </application>
 </manifest>

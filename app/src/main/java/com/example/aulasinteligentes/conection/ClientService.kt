@@ -9,15 +9,12 @@ interface ClientService {
     @POST("AulasInteligentes/registrarNuevoUsuario")
     suspend fun createNewUser(@Body usuario: User): Int
 
-    @GET("AulasInteligentes/registrarNuevoUsuario")
-    suspend fun getNewUser(): Response<Int>
-
-    @POST("validarInicioSesion")
+    @POST("AulasInteligentes/validarInicioSesion")
     suspend fun checkUser(@Body usuario: User): Call<Boolean>
 
-    @GET("")
+    @GET("AulasInteligentes/")
     suspend fun getTemperatures(): Response<ArrayList<Temperatures>>
 
-    @GET("RUTA")
-    suspend fun getPrediction(): Response<ArrayList<Temperatures>>
+    @GET("AulasInteligentes/registrarNuevoUsuario")
+    suspend fun getNewUser(): Response<Int>
 }

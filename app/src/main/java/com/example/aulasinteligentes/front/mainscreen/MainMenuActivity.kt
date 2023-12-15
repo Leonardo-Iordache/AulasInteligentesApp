@@ -1,5 +1,6 @@
 package com.example.aulasinteligentes.front.mainscreen
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
@@ -24,6 +25,7 @@ class MainMenuActivity : AppCompatActivity() {
 
         consultarDatos.setOnClickListener {
             Log.d("MainMenuActivity", "CONSULTAR DATOS")
+            showTemperaturesScreen()
         }
 
         prediccionButton.setOnClickListener {
@@ -34,4 +36,9 @@ class MainMenuActivity : AppCompatActivity() {
         setContentView(binding.root)
     }
 
+
+    private fun showTemperaturesScreen(){
+        val intent = Intent(this, TemperaturesGraphActivity::class.java)
+        startActivity(intent)
+    }
 }
