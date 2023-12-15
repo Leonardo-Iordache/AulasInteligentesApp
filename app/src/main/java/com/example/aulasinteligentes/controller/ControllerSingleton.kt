@@ -7,14 +7,14 @@ import com.example.aulasinteligentes.entities.Temperatures
 import com.example.aulasinteligentes.entities.User
 
 object ControllerSingleton {
-    private val restApiService: ClientServiceImpl = ClientServiceImpl()
+    private val restApiService = ClientServiceImpl()
 
     suspend fun validarUsuario(user: User): Boolean {
         return restApiService.validateUser(user)
     }
 
     suspend fun createUser(user: User): Int{
-        return restApiService.createNewUser(user)
+        return restApiService.createUser(user)
     }
 
     suspend fun getTemperatures(): ArrayList<Temperatures>?{

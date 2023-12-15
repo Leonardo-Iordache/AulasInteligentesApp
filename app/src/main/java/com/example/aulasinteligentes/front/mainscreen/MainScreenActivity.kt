@@ -41,7 +41,7 @@ class MainScreenActivity : AppCompatActivity() {
 
         loginButton.setOnClickListener{
             Log.d("MainScreenActivity", "Botón de inicio de sesión presionado")
-            validateUser(userName, userPassword, userEmail)
+            //validateUser(userName, userPassword, userEmail)
 
         }
 
@@ -63,7 +63,7 @@ class MainScreenActivity : AppCompatActivity() {
         startActivity(intent)
     }
 
-    private fun validateUser(userName: String, userPassword: String, userEmail: String){
+    /*private fun validateUser(userName: String, userPassword: String, userEmail: String){
         val user = User(userName, userPassword, userEmail)
         var response = false
         runBlocking {
@@ -82,6 +82,6 @@ class MainScreenActivity : AppCompatActivity() {
                 Log.i("MainScreenActivity", "Inicio de sesion no valido")
             }
         }
-    }
+    }*/
 
 }

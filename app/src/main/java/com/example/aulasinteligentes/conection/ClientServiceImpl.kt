@@ -14,41 +14,41 @@ class ClientServiceImpl{
 
     suspend fun getNewUser(): Int{
         var response = 1
-        Log.d("ClientServiceLLL", "Intentando crear la conexión con $serverUrl")
 
-        val call = retrofit.getNewUser()
+        try{
+            Log.d("AAAAA", "HE entrado")
 
-        if (call.isSuccessful){
+            val call = retrofit.getNewUser()
             val result = call.body()
-            response = result ?: 12
+            Log.d("AAAAA", "Correcto: $result")
+            if (call.isSuccessful){
+                response = result ?: 12
+            }
+            else {
+                Log.d("ClientServiceLLL", "La solicitud no fue exitosa: ${call.code()}")
+                val errorBody = call.errorBody()?.string()
+                Log.d("ClientServiceLLL", "Mensaje de error: $errorBody")
+            }
+        } catch (e: Exception){
+            Log.e("ClientServiceLLL", "Error en la solicitud: ${e.message}", e)
+
         }
-        else{
-            Log.d("ClientServiceLLL", "No se ha logrado coger el coso")
-        }
+        Log.i("ClientServiceLLL", "Resultado: $response")
         return response
     }
 
 
-    suspend fun createNewUser(user: User): Int{
-        val call = retrofit.createNewUser(user)
-        var respuesta = 1
-        Log.d("ClientServiceImpl", "Lo consguimos")
-        call.enqueue(object : Callback<Int>{
-            override fun onResponse(call: Call<Int>, response: Response<Int>) {
-                if (response.isSuccessful){
-                    respuesta = response.body() ?: 2
-                }
-                else{
-                    Log.e("ClientServiceImpl", "Error al crear usuario")
-                }
-            }
-
-            override fun onFailure(call: Call<Int>, t: Throwable) {
-                Log.e("ClientServiceImpl", "Error de conexion con el servidor")
-            }
-        })
-        return respuesta
+    suspend fun createUser(user: User): Int {
+        try {
+            val result = retrofit.createNewUser(user)
+            Log.i("ClientServiceLLL", "Usuario creado correctamente: $result")
+            return result
+        } catch (e: Exception) {
+            Log.e("ClientServiceLLL", "Error en la solicitud: ${e.message}", e)
+        }
+        return 0
     }
+
 
     suspend fun validateUser(user: User): Boolean{
         var respuesta = false

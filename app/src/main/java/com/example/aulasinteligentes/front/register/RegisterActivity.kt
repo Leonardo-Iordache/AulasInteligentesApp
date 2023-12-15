@@ -7,6 +7,7 @@ import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.aulasinteligentes.R
+import com.example.aulasinteligentes.conection.ClientServiceImpl
 import com.example.aulasinteligentes.controller.ControllerSingleton
 import com.example.aulasinteligentes.databinding.RegisterScreenBinding
 import com.example.aulasinteligentes.entities.User
@@ -25,7 +26,6 @@ class RegisterActivity : AppCompatActivity() {
     private lateinit var confirmPasswordInput: String
     private var job: Job = Job()
     private val context = this
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.register_screen)
@@ -58,23 +58,23 @@ class RegisterActivity : AppCompatActivity() {
         var respuesta = 2
         if ((passwordInput == confirmPasswordInput) && (passwordInput != "")) {
             val user = User(userName, userPassword, userEmail)
-            job = launch {
-                //respuesta = ControllerSingleton.createUser(user)
-                respuesta = ControllerSingleton.createNewUserGet()
+            runBlocking {
+                job = launch {
+                    respuesta = ControllerSingleton.createUser(user)
+                    Log.d("RegistroCompletado", "Valor: $respuesta")
+                }
             }
-            job.join()
-
-            if(respuesta == 0){
-                Log.d("RegistroCompletado", "OLEEEE")
+            job.invokeOnCompletion {
+                if (respuesta == 0) {
+                    Log.d("RegistroCompletado", "Se ha completado el registro")
+                    val intent = Intent(context, MainScreenActivity::class.java)
+                    startActivity(intent)
+                } else {
+                    Toast.makeText(
+                        applicationContext, "NOT OLEEE + $respuesta", Toast.LENGTH_LONG
+                    ).show()
+                }
             }
-            else{
-                Toast.makeText(
-                    applicationContext, "NOT OLEEE + $respuesta", Toast.LENGTH_LONG
-                ).show()
-            }
-
-            //val intent = Intent(context, MainScreenActivity::class.java)
-            //startActivity(intent)
         } else {
             Toast.makeText(
                 applicationContext, "Las contraseñas deben coincidir", Toast.LENGTH_SHORT
