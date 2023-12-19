@@ -3,15 +3,19 @@ package com.example.aulasinteligentes.front.mainscreen
 import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
-import android.view.View
-import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.Button
+import android.widget.EditText
 import android.widget.Spinner
 import androidx.appcompat.app.AppCompatActivity
 import com.example.aulasinteligentes.R
 import com.example.aulasinteligentes.controller.ControllerSingleton
 import com.example.aulasinteligentes.databinding.TemperaturesGraphScreenBinding
-import com.example.aulasinteligentes.entities.Temperatures
+import com.example.aulasinteligentes.entities.Humidity
+import com.example.aulasinteligentes.entities.Ilumination
+import com.example.aulasinteligentes.entities.Noise
+import com.example.aulasinteligentes.entities.TemperaturaExterior
+import com.example.aulasinteligentes.entities.TemperaturaInterior
 import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.Entry
@@ -26,8 +30,16 @@ import kotlinx.coroutines.runBlocking
 
 class TemperaturesGraphActivity : AppCompatActivity() {
     private lateinit var lineChart: LineChart
-    private lateinit var spinnerTemperatureType: Spinner
-    private var temperaturesList: ArrayList<Temperatures>? = null // Tu lista de temperaturas
+    private lateinit var spinnerSelectData: Spinner
+    private lateinit var idText: EditText
+    private lateinit var searchButton: Button
+
+    private var noiseList: ArrayList<Noise>? = null
+    private var temperaturaInteriorList: ArrayList<TemperaturaInterior>? = null
+    private var temperaturaExteriorList: ArrayList<TemperaturaExterior>? = null
+    private var iluminationList: ArrayList<Ilumination>? = null
+    private var humidityList: ArrayList<Humidity>? = null
+
     private lateinit var binding: TemperaturesGraphScreenBinding
     private var job: Job = Job()
 
@@ -39,108 +51,72 @@ class TemperaturesGraphActivity : AppCompatActivity() {
 
         binding.let {
             lineChart = it.chart
-            spinnerTemperatureType = it.spinner
-        }
-
-        runBlocking {
-            job = launch {
-                //temperaturesList = getTemperatures()
-                temperaturesList = arrayListOf(
-                    Temperatures(
-                        "1",
-                        ControllerSingleton.parseDate("2023-12-12 14:00"),
-                        25.0,
-                        15.0
-                    ),
-                    Temperatures(
-                        "1",
-                        ControllerSingleton.parseDate("2023-12-12 15:00"),
-                        24.0,
-                        10.0
-                    ),
-                    Temperatures(
-                        "1",
-                        ControllerSingleton.parseDate("2023-12-12 16:00"),
-                        22.0,
-                        12.0
-                    ),
-                    Temperatures(
-                        "1",
-                        ControllerSingleton.parseDate("2023-12-12 17:00"),
-                        24.0,
-                        13.0
-                    ),
-                    Temperatures(
-                        "1",
-                        ControllerSingleton.parseDate("2023-12-12 18:00"),
-                        25.0,
-                        15.0
-                    ),
-                    Temperatures(
-                        "1",
-                        ControllerSingleton.parseDate("2023-12-12 19:00"),
-                        25.0,
-                        12.0
-                    ),
-                    Temperatures("2", ControllerSingleton.parseDate("2023-12-12 14:00"), 20.0, 1.0),
-                    Temperatures(
-                        "2",
-                        ControllerSingleton.parseDate("2023-12-12 15:00"),
-                        21.0,
-                        17.0
-                    ),
-                    Temperatures(
-                        "2",
-                        ControllerSingleton.parseDate("2023-12-12 16:00"),
-                        15.0,
-                        14.0
-                    ),
-                    Temperatures(
-                        "2",
-                        ControllerSingleton.parseDate("2023-12-12 17:00"),
-                        14.0,
-                        12.0
-                    ),
-                    Temperatures("2", ControllerSingleton.parseDate("2023-12-12 18:00"), 21.0, 5.0),
-                    Temperatures("2", ControllerSingleton.parseDate("2023-12-12 19:00"), 18.0, 0.0)
-                )
-            }
-        }
-
-        job.invokeOnCompletion {
-            Log.i("TemperaturesChart", "Guardadas las temperaturas correctamente")
-            val aulas = temperaturesList?.map { it.idAula }?.distinct() ?: emptyList()
-
-            val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, aulas)
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-            spinnerTemperatureType.adapter = adapter
-
-            spinnerTemperatureType.onItemSelectedListener =
-                object : AdapterView.OnItemSelectedListener {
-                    override fun onItemSelected(
-                        parent: AdapterView<*>?,
-                        view: View?,
-                        position: Int,
-                        id: Long
-                    ) {
-                        val selectedAula = parent?.getItemAtPosition(position).toString()
-                        val filteredTemperatures =
-                            temperaturesList?.filter { it.idAula == selectedAula }
-
-                        filteredTemperatures?.let {
-                            setData(it)
-                        }
-                    }
-
-                    override fun onNothingSelected(parent: AdapterView<*>?) {
-                        // Acciones cuando no se selecciona nada en el Spinner (si es necesario)
-                    }
-                }
-
-            setupChart()
+            spinnerSelectData = it.tipoDatoSpinner
+            idText = it.seleccion
+            searchButton = it.searchButton
         }
         setContentView(binding.root)
 
+
+        Log.i("TemperaturesChart", "Guardadas las temperaturas correctamente")
+        val datos = arrayListOf("Temperatura", "Humedad", "Ruido", "Iluminación")
+
+        val adapterData = ArrayAdapter(this, android.R.layout.simple_spinner_item, datos)
+        adapterData.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        spinnerSelectData.adapter = adapterData
+
+        searchButton.setOnClickListener {
+            val data = spinnerSelectData.selectedItem.toString()
+            if (data == "Temperatura"){
+                runBlocking {
+                    job = launch {
+                        Log.i("TemperaturesChart", "Temperatura Request: ${idText.text.toString().trim()}")
+                        temperaturaInteriorList = ControllerSingleton.getTemperaturaInterior(idText.text.toString().trim())
+                        temperaturaExteriorList = ControllerSingleton.getTemperaturaExterior(idText.text.toString().trim())
+                    }
+                }
+                job.invokeOnCompletion {
+                    Log.i("TemperaturesChart", "Temperatura Request: $temperaturaInteriorList")
+                    temperaturaInteriorList?.let { it1 -> temperaturaExteriorList?.let { it2 ->
+                        setTemperatureData(it1,
+                            it2
+                        )
+                    } }
+                }
+            }
+            else if (data == "Humedad"){
+                runBlocking {
+                    job = launch {
+                        humidityList = ControllerSingleton.getHumidityList(idText.text.toString().trim())
+                    }
+                }
+                job.invokeOnCompletion {
+                    humidityList?.let { it1 -> setHumidityData(it1) }
+                }
+            }
+            else if (data == "Ruido"){
+                runBlocking {
+                    job = launch {
+                        noiseList = ControllerSingleton.getNoiseList(idText.text.toString().trim())
+                    }
+                }
+                job.invokeOnCompletion {
+                    noiseList?.let { it1 -> setNoiseData(it1) }
+                }
+            }
+            else if (data == "Iluminacion"){
+                runBlocking {
+                    job = launch {
+                        iluminationList = ControllerSingleton.getIluminationList(idText.text.toString().trim())
+                    }
+                }
+                job.invokeOnCompletion {
+                    iluminationList?.let { it1 -> setIluminationData(it1) }
+                }
+            }
+        }
+
+        setupChart()
     }
 
     private fun setupChart() {
@@ -157,7 +133,7 @@ class TemperaturesGraphActivity : AppCompatActivity() {
             xAxis.position = XAxis.XAxisPosition.BOTTOM
             xAxis.valueFormatter = object : ValueFormatter() {
                 override fun getFormattedValue(value: Float): String {
-                    return temperaturesList?.getOrNull(value.toInt())?.fecha?.toString() ?: ""
+                    return temperaturaInteriorList?.getOrNull(value.toInt())?.fecha ?: ""
                 }
             }
 
@@ -167,13 +143,17 @@ class TemperaturesGraphActivity : AppCompatActivity() {
     }
 
 
-    private fun setData(temperatures: List<Temperatures>) {
+    //MOSTRAR TEMPERATURAS
+    private fun setTemperatureData(temperaturaIn: List<TemperaturaInterior>, temperaturaOut: List<TemperaturaExterior>) {
         val exteriorEntries = ArrayList<Entry>()
         val interiorEntries = ArrayList<Entry>()
 
-        temperatures.forEachIndexed { index, temp ->
+        temperaturaIn.forEachIndexed { index, temp ->
+            interiorEntries.add(Entry(index.toFloat(), temp.temperaturaIn.toFloat()))
+        }
+
+        temperaturaOut.forEachIndexed { index, temp ->
             exteriorEntries.add(Entry(index.toFloat(), temp.temperaturaIn.toFloat()))
-            interiorEntries.add(Entry(index.toFloat(), temp.temperaturaOut.toFloat()))
         }
 
         val exteriorDataSet = LineDataSet(exteriorEntries, "Exterior")
@@ -194,8 +174,67 @@ class TemperaturesGraphActivity : AppCompatActivity() {
     }
 
 
-    private suspend fun getTemperatures(): ArrayList<Temperatures>? {
-        return ControllerSingleton.getTemperatures()
+
+    //MOSTRAR HUMEDAD
+    private fun setHumidityData(humidityList: List<Humidity>) {
+        val humidityEntry = ArrayList<Entry>()
+
+        humidityList.forEachIndexed { index, temp ->
+            humidityEntry.add(Entry(index.toFloat(), temp.humidityValue.toFloat()))
+        }
+
+        val humidityDataSet = LineDataSet(humidityEntry, "Humedad")
+        humidityDataSet.color = Color.BLUE
+        humidityDataSet.valueTextColor = Color.BLUE
+
+        val dataSets = ArrayList<ILineDataSet>()
+        dataSets.add(humidityDataSet)
+
+        val data = LineData(dataSets)
+        lineChart.data = data
+        lineChart.invalidate()
+    }
+
+
+    //MOSTRAR RUIDO
+    private fun setNoiseData(noiseList: List<Noise>) {
+        val noiseEntry = ArrayList<Entry>()
+
+        noiseList.forEachIndexed { index, temp ->
+            noiseEntry.add(Entry(index.toFloat(), temp.nivelRuido.toFloat()))
+        }
+
+        val noiseDataSet = LineDataSet(noiseEntry, "Nivel de Ruido")
+        noiseDataSet.color = Color.BLUE
+        noiseDataSet.valueTextColor = Color.BLUE
+
+        val dataSets = ArrayList<ILineDataSet>()
+        dataSets.add(noiseDataSet)
+
+        val data = LineData(dataSets)
+        lineChart.data = data
+        lineChart.invalidate()
+    }
+
+
+    //MOSTRAR ILUMINACION
+    private fun setIluminationData(iluminationList: List<Ilumination>) {
+        val iluminationEntry = ArrayList<Entry>()
+
+        iluminationList.forEachIndexed { index, temp ->
+            iluminationEntry.add(Entry(index.toFloat(), temp.iluminationValue.toFloat()))
+        }
+
+        val iluminationDataSet = LineDataSet(iluminationEntry, "Iluminación")
+        iluminationDataSet.color = Color.YELLOW
+        iluminationDataSet.valueTextColor = Color.YELLOW
+
+        val dataSets = ArrayList<ILineDataSet>()
+        dataSets.add(iluminationDataSet)
+
+        val data = LineData(dataSets)
+        lineChart.data = data
+        lineChart.invalidate()
     }
 
 }

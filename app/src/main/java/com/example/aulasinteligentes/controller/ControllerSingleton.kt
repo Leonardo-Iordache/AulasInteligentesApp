@@ -1,10 +1,15 @@
 package com.example.aulasinteligentes.controller
 
-import android.content.Intent
-import android.content.Context
 import android.util.Log
 import com.example.aulasinteligentes.conection.ClientServiceImpl
-import com.example.aulasinteligentes.entities.Temperatures
+import com.example.aulasinteligentes.entities.Aula
+import com.example.aulasinteligentes.entities.Hall
+import com.example.aulasinteligentes.entities.Humidity
+import com.example.aulasinteligentes.entities.Ilumination
+import com.example.aulasinteligentes.entities.Noise
+import com.example.aulasinteligentes.entities.PredictionTemp
+import com.example.aulasinteligentes.entities.TemperaturaExterior
+import com.example.aulasinteligentes.entities.TemperaturaInterior
 import com.example.aulasinteligentes.entities.User
 import java.sql.Timestamp
 import java.text.SimpleDateFormat
@@ -21,12 +26,28 @@ object ControllerSingleton {
         return restApiService.createUser(user)
     }
 
-    suspend fun getTemperatures(): ArrayList<Temperatures>?{
-        return restApiService.getTemperatures()
+    suspend fun getTemperaturaInterior(idAula: String): ArrayList<TemperaturaInterior>?{
+        return restApiService.getTemperaturaInterior(idAula)
     }
 
-    suspend fun createNewUserGet(): Int{
-        return restApiService.getNewUser()
+    suspend fun getTemperaturaExterior(idAula: String): ArrayList<TemperaturaExterior>?{
+        return restApiService.getTemperaturaExterior(idAula)
+    }
+
+    suspend fun getIluminationList(idAula:String): ArrayList<Ilumination>?{
+        return restApiService.getIluminationList(idAula)
+    }
+
+    suspend fun getNoiseList(idPasillo: String): ArrayList<Noise>?{
+        return restApiService.getNoiseList(idPasillo)
+    }
+
+    suspend fun getHumidityList(idAula: String): ArrayList<Humidity>?{
+        return restApiService.getHumidityList(idAula)
+    }
+
+    suspend fun getPredictionList(fecha: String): ArrayList<PredictionTemp>?{
+        return restApiService.getPredictionList(fecha)
     }
 
     fun parseDate(dateString: String): Timestamp {

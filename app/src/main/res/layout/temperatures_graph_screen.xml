@@ -5,11 +5,34 @@
     android:orientation="vertical"
     android:padding="16dp">
 
+    <LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+
     <Spinner
-        android:id="@+id/spinner"
+        android:id="@+id/tipoDatoSpinner"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:hint="Select Aula 1" />
+
+        <EditText
+            android:id="@+id/seleccion"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ems="10"
+            android:inputType="number"
+            android:hint="Aula o Pasillo" />
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/searchButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Select Aula" />
+        android:text="Consultar" />
 
     <com.github.mikephil.charting.charts.LineChart
         android:id="@+id/chart"

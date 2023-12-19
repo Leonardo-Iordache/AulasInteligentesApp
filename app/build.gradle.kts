@@ -80,5 +80,5 @@ dependencies {
     implementation("com.squareup.okhttp3:okhttp:4.7.2")
 
     implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
-
+    implementation("com.github.evrencoskun:TableView:v0.8.9.4")
 }

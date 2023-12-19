@@ -30,6 +30,7 @@ class MainMenuActivity : AppCompatActivity() {
 
         prediccionButton.setOnClickListener {
             Log.d("MainMenuActivity", "CONSULTAR PREDICCIONES")
+            showPredictionsScreen()
         }
 
 
@@ -39,6 +40,11 @@ class MainMenuActivity : AppCompatActivity() {
 
     private fun showTemperaturesScreen(){
         val intent = Intent(this, TemperaturesGraphActivity::class.java)
+        startActivity(intent)
+    }
+
+    private fun showPredictionsScreen(){
+        val intent = Intent(this, PredictionsActivity::class.java)
         startActivity(intent)
     }
 }
