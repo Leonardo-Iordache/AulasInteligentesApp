@@ -32,17 +32,20 @@ class MainScreenActivity : AppCompatActivity() {
         binding = MainScreenBinding.inflate(layoutInflater)
 
         binding.let{
-            userName = it.userName.text.toString().trim()
-            userPassword = it.userPassword.text.toString().trim()
-            userEmail = it.userEmail.text.toString().trim()
             loginButton = it.buttonLogin
             registerButton = it.buttonRegister
         }
 
         loginButton.setOnClickListener{
-            Log.d("MainScreenActivity", "Botón de inicio de sesión presionado")
-            //validateUser(userName, userPassword, userEmail)
-            executeMainMenu()
+            binding.let{
+                userName = it.userName.text.toString().trim()
+                userPassword = it.userPassword.text.toString().trim()
+                userEmail = it.userEmail.text.toString().trim()
+            }
+
+            Log.d("MainScreenActivity", "Credenciales: $userName, $userPassword, $userEmail")
+            validateUser(userName, userPassword, userEmail)
+            //executeMainMenu()
         }
 
         registerButton.setOnClickListener {
@@ -65,14 +68,14 @@ class MainScreenActivity : AppCompatActivity() {
 
     private fun validateUser(userName: String, userPassword: String, userEmail: String){
         val user = User(userName, userPassword, userEmail)
-        var response = false
+        var response = 0
         runBlocking {
             job = launch {
                 response = ControllerSingleton.validarUsuario(user)
             }
         }
         job.invokeOnCompletion {
-            if(response){
+            if(response == 1){
                 executeMainMenu()
             }
             else{

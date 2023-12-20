@@ -32,24 +32,20 @@ class ClientServiceImpl{
     }
 
 
-    suspend fun validateUser(user: User): Boolean{
-        var respuesta = false
-        val call = retrofit.checkUser(user)
-        call.enqueue(object : Callback<Boolean>{
-
-            override fun onResponse(call: Call<Boolean>, response: Response<Boolean>) {
-                if (response.isSuccessful){
-                    respuesta = response.body() ?: false
-                }
-                else{
-                    Log.e("ClientServiceImpl", "Error al validar el usuario")
-                }
+    suspend fun validateUser(user: User): Int{
+        var respuesta = 0
+        try{
+            val result = retrofit.checkUser(user)
+            if (result == 1){
+                respuesta = result
+            }
+            else{
+                Log.e("ClientServiceImpl", "Error al validar el usuario")
             }
 
-            override fun onFailure(call: Call<Boolean>, t: Throwable) {
-                Log.e("ClientServiceImpl", "Error de conexion")
-            }
-        })
+        } catch (e: Exception){
+            Log.e("ClientServiceImpl", "Error inesperado ${e.message}", e)
+        }
         return respuesta
     }
 
@@ -184,27 +180,27 @@ class ClientServiceImpl{
         return null
     }
 
-    suspend fun changeWindowState(aulaId: String){
+    suspend fun changeWindowState(aulaId: String, open: Boolean){
         Log.i("ClientServiceImpl", "Mandando $aulaId")
 
         try {
-            retrofit.changeWindowState(aulaId)
+            retrofit.changeWindowState(aulaId, open)
         } catch (e: Exception) {
             Log.e("ClientServiceImpl", "Excepción al cambiar el estado de la ventana: ${e.message}", e)
         }
     }
 
-    suspend fun changeBlindState(aulaId: String){
+    suspend fun changeBlindState(aulaId: String, open: Boolean){
         try {
-            retrofit.changeBlindState(aulaId)
+            retrofit.changeBlindState(aulaId, open)
         } catch (e: Exception) {
             Log.e("ClientServiceImpl", "Excepción al cambiar el estado de la ventana: ${e.message}", e)
         }
     }
 
-    suspend fun changeACState(aulaId: String){
+    suspend fun changeACState(aulaId: String, turnOn: Boolean, tipoAire: Boolean){
         try {
-            retrofit.changeACState(aulaId)
+            retrofit.changeACState(aulaId, turnOn, tipoAire)
         } catch (e: Exception) {
             Log.e("ClientServiceImpl", "Excepción al cambiar el estado de la ventana: ${e.message}", e)
         }

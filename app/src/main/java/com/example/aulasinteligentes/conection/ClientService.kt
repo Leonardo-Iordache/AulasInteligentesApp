@@ -10,7 +10,7 @@ interface ClientService {
     suspend fun createNewUser(@Body usuario: User): Int
 
     @POST("validarInicioSesion")
-    suspend fun checkUser(@Body usuario: User): Call<Boolean>
+    suspend fun checkUser(@Body usuario: User): Int
 
     @GET("getTemperaturaInteriorAula")
     suspend fun getTemperaturaInterior(@Query("aulaId") aulaId: String,
@@ -47,11 +47,11 @@ interface ClientService {
     suspend fun getAulas(): Response<ArrayList<Aula>>
 
     @GET("ventana")
-    suspend fun changeWindowState(@Query("aulaId") aulaId: String)
+    suspend fun changeWindowState(@Query("aulaId") aulaId: String, @Query("abrir") open: Boolean)
 
     @GET("cortina")
-    suspend fun changeBlindState(@Query("aulaId") aulaId: String)
+    suspend fun changeBlindState(@Query("aulaId") aulaId: String, @Query("abrir") open: Boolean)
 
     @GET("aire")
-    suspend fun changeACState(@Query("aulaId") aulaId: String)
+    suspend fun changeACState(@Query("aulaId") aulaId: String, @Query("encender") turnOn: Boolean, @Query("caliente") tipoAire: Boolean)
 }

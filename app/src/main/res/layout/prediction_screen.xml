@@ -34,7 +34,7 @@
             android:layout_height="55dp"
             android:layout_marginBottom="3dp"
             android:layout_marginHorizontal="100dp"
-            android:text="Button"
+            android:text="Predecir"
             app:layout_constraintBottom_toTopOf="@+id/tableView"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

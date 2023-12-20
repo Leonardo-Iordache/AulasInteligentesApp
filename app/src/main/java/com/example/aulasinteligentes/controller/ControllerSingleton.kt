@@ -18,7 +18,7 @@ import java.util.Locale
 object ControllerSingleton {
     private val restApiService = ClientServiceImpl()
 
-    suspend fun validarUsuario(user: User): Boolean {
+    suspend fun validarUsuario(user: User): Int {
         return restApiService.validateUser(user)
     }
 
@@ -50,15 +50,15 @@ object ControllerSingleton {
         return restApiService.getPredictionList(fecha)
     }
 
-   suspend fun changeWindowState(aulaId: String){
-       restApiService.changeWindowState(aulaId)
+   suspend fun changeWindowState(aulaId: String, open: Boolean){
+       restApiService.changeWindowState(aulaId, open)
    }
 
-    suspend fun changeBlindState(aulaId: String){
-        restApiService.changeBlindState(aulaId)
+    suspend fun changeBlindState(aulaId: String, open: Boolean){
+        restApiService.changeBlindState(aulaId, open)
     }
 
-    suspend fun changeACState(aulaId: String){
-        restApiService.changeACState(aulaId)
+    suspend fun changeACState(aulaId: String, turnOn: Boolean, tipoAire: Boolean){
+        restApiService.changeACState(aulaId, turnOn, tipoAire)
     }
 }

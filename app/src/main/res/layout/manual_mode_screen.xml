@@ -5,11 +5,11 @@
     android:layout_height="match_parent">
 
     <LinearLayout
-        android:layout_width="409dp"
-        android:layout_height="729dp"
+        android:layout_width="387dp"
+        android:layout_height="731dp"
         android:orientation="vertical"
         tools:layout_editor_absoluteX="1dp"
-        tools:layout_editor_absoluteY="1dp">
+        tools:layout_editor_absoluteY="-1dp">
 
         <Button
             android:id="@+id/abrir_cerrar_ventanaButton"
