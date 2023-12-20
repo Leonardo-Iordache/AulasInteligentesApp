@@ -82,4 +82,6 @@ dependencies {
 
     implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
     implementation("com.github.evrencoskun:TableView:v0.8.9.4")
+    implementation("com.google.android.material:material:1.5.0")
+
 }

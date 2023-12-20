@@ -11,7 +11,7 @@ data class Noise(
 
     @SerializedName("fecha")
     @Expose
-    val fecha: Timestamp,
+    val fecha: String,
 
     @SerializedName("valor")
     val nivelRuido: Double

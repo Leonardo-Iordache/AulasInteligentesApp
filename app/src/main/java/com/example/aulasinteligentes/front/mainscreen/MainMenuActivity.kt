@@ -46,7 +46,7 @@ class MainMenuActivity : AppCompatActivity() {
 
 
     private fun showTemperaturesScreen(){
-        val intent = Intent(this, TemperaturesGraphActivity::class.java)
+        val intent = Intent(this, ChartActivity::class.java)
         startActivity(intent)
     }
 

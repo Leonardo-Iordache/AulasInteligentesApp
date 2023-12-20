@@ -11,7 +11,7 @@ data class Ilumination(
 
     @SerializedName("fecha")
     @Expose
-    val date: Timestamp,
+    val date: String,
 
     @SerializedName("valor")
     @Expose

@@ -22,7 +22,7 @@ interface ClientService {
                                        @Query("fechaDesde") fechaDesde: String,
                                        @Query("fechaHasta") fechaHasta: String): Response<ArrayList<TemperaturaExterior>>
 
-    @GET("getRuidoPasillo")//2 FECHAS
+    @GET("getRuidoPasillo")
     suspend fun getNoiseList(@Query("pasilloId") pasilloId: String,
                              @Query("fechaDesde") fechaDesde: String,
                              @Query("fechaHasta") fechaHasta: String): Response<ArrayList<Noise>>
@@ -32,7 +32,7 @@ interface ClientService {
                                 @Query("fechaDesde")fechaDesde: String,
                                 @Query("fechaHasta")fechaHasta: String): Response<ArrayList<Humidity>>
 
-    @GET("getLuz")
+    @GET("getLuzAula")
     suspend fun getIluminationList(@Query("aulaId")aulaId: String,
                                    @Query("fechaDesde")fechaDesde: String,
                                    @Query("fechaHasta")fechaHasta: String): Response<ArrayList<Ilumination>>

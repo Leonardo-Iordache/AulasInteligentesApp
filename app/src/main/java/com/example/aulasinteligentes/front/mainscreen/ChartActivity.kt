@@ -28,7 +28,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 
 
-class TemperaturesGraphActivity : AppCompatActivity() {
+class ChartActivity : AppCompatActivity() {
     private lateinit var lineChart: LineChart
     private lateinit var spinnerSelectData: Spinner
     private lateinit var idText: EditText
@@ -101,16 +101,18 @@ class TemperaturesGraphActivity : AppCompatActivity() {
                     }
                 }
                 job.invokeOnCompletion {
+                    Log.i("ChartActtt", "Conseguido $noiseList")
                     noiseList?.let { it1 -> setNoiseData(it1) }
                 }
             }
-            else if (data == "Iluminacion"){
+            else if (data == "Iluminación"){
                 runBlocking {
                     job = launch {
                         iluminationList = ControllerSingleton.getIluminationList(idText.text.toString().trim())
                     }
                 }
                 job.invokeOnCompletion {
+                    Log.i("ChartActtt", "Conseguido $iluminationList")
                     iluminationList?.let { it1 -> setIluminationData(it1) }
                 }
             }
@@ -127,7 +129,7 @@ class TemperaturesGraphActivity : AppCompatActivity() {
             setTouchEnabled(true)
             isDragEnabled = true
             setScaleEnabled(true)
-            legend.textColor = Color.BLACK
+            legend.textColor = Color.WHITE
 
             val xAxis = xAxis
             xAxis.position = XAxis.XAxisPosition.BOTTOM
@@ -137,7 +139,7 @@ class TemperaturesGraphActivity : AppCompatActivity() {
                 }
             }
 
-            axisLeft.textColor = Color.BLACK
+            axisLeft.textColor = Color.WHITE
             axisRight.isEnabled = false
         }
     }
