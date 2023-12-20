@@ -10,6 +10,7 @@ import com.example.aulasinteligentes.databinding.MainMenuBinding
 class MainMenuActivity : AppCompatActivity() {
     private lateinit var consultarDatos: Button
     private lateinit var prediccionButton: Button
+    private lateinit var cambiarModoButton: Button
     private lateinit var binding: MainMenuBinding
 
     override fun onCreate(savedInstanceState: Bundle?){
@@ -21,16 +22,22 @@ class MainMenuActivity : AppCompatActivity() {
         binding.let {
             consultarDatos = it.consultarDatosButton
             prediccionButton = it.prediccionButton
+            cambiarModoButton = it.cambiarModoButton
         }
 
         consultarDatos.setOnClickListener {
-            Log.d("MainMenuActivity", "CONSULTAR DATOS")
+            Log.i("MainMenuActivity", "CONSULTAR DATOS")
             showTemperaturesScreen()
         }
 
         prediccionButton.setOnClickListener {
-            Log.d("MainMenuActivity", "CONSULTAR PREDICCIONES")
+            Log.i("MainMenuActivity", "CONSULTAR PREDICCIONES")
             showPredictionsScreen()
+        }
+
+        cambiarModoButton.setOnClickListener {
+            Log.d("MainMenuActivity", "CAMBIAR MODO")
+            switchExecutionMode()
         }
 
 
@@ -45,6 +52,11 @@ class MainMenuActivity : AppCompatActivity() {
 
     private fun showPredictionsScreen(){
         val intent = Intent(this, PredictionsActivity::class.java)
+        startActivity(intent)
+    }
+
+    private fun switchExecutionMode(){
+        val intent = Intent(this, ManualModeActivity::class.java)
         startActivity(intent)
     }
 }

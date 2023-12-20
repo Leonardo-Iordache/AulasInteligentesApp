@@ -6,37 +6,38 @@
     android:layout_height="match_parent"
     tools:context=".front.mainscreen.MainMenuActivity">
 
+
     <Button
         android:id="@+id/prediccionButton"
-        android:layout_width="194dp"
+        android:layout_width="225dp"
         android:layout_height="0dp"
-        android:layout_marginBottom="331dp"
+        android:layout_marginBottom="88dp"
         android:text="QUIERO UN\nAULA"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/cambiarModoButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/consultarDatosButton" />
 
     <Button
         android:id="@+id/consultarDatosButton"
-        android:layout_width="194dp"
+        android:layout_width="233dp"
         android:layout_height="0dp"
-        android:layout_marginBottom="52dp"
+        android:layout_marginTop="76dp"
+        android:layout_marginBottom="80dp"
         android:text="CONSULTAR\nDATOS"
         app:layout_constraintBottom_toTopOf="@+id/prediccionButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="0dp"
+    <Button
+        android:id="@+id/cambiarModoButton"
+        android:layout_width="232dp"
         android:layout_height="0dp"
-        android:layout_marginTop="1dp"
-        android:layout_marginBottom="147dp"
-        android:text="AULAS INTELIGENTES"
-        app:layout_constraintBottom_toTopOf="@+id/consultarDatosButton"
+        android:layout_marginBottom="240dp"
+        android:text="Cambiar a modo\nManual"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/prediccionButton" />
 </androidx.constraintlayout.widget.ConstraintLayout>

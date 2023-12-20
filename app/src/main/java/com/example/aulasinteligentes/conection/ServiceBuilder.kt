@@ -9,7 +9,7 @@ import retrofit2.create
 
 
 object ServiceBuilder {
-    private const val serverURL = "http://192.168.147.140:8080"
+    private const val serverURL = "http://192.168.1.138:8080"
     private val client = OkHttpClient.Builder().build()
     private val gson: Gson = GsonBuilder().create()
 

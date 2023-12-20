@@ -4,70 +4,46 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
+import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.evrencoskun.tableview.adapter.AbstractTableAdapter
 import com.evrencoskun.tableview.adapter.recyclerview.holder.AbstractViewHolder
 import com.example.aulasinteligentes.R
 import com.example.aulasinteligentes.entities.PredictionTemp
 
-class PredictionsAdapter(context: Context): AbstractTableAdapter<String, String, String>() {
+class PredictionsAdapter(private val predictionsList: ArrayList<PredictionTemp>) :
+    RecyclerView.Adapter<PredictionsAdapter.PredictionsActivityViewHolder>() {
 
-    override fun getColumnHeaderItemViewType(position: Int): Int {
-        // Define your column header view type here
-        return 0
+    class PredictionsActivityViewHolder(itemView: View) : ViewHolder(itemView) {
+        val idAula = itemView.findViewById<TextView>(R.id.idAulaText)
+        val fechaPrediccion = itemView.findViewById<TextView>(R.id.fechaText)
+        val valorPrediccion = itemView.findViewById<TextView>(R.id.valorText)
     }
 
-    override fun getRowHeaderItemViewType(position: Int): Int {
-        // Define your row header view type here
-        return 0
-    }
-
-    override fun getCellItemViewType(position: Int): Int {
-        // Define your cell view type here
-        return 0
-    }
-
-    override fun onCreateCellViewHolder(parent: ViewGroup, viewType: Int): AbstractViewHolder {
-        TODO("Not yet implemented")
-    }
-
-    override fun onCreateColumnHeaderViewHolder(
+    override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): AbstractViewHolder {
-        TODO("Not yet implemented")
+    ): PredictionsAdapter.PredictionsActivityViewHolder {
+        val context = parent.context
+        val inflater = LayoutInflater.from(context)
+        val predictionView = inflater.inflate(R.layout.prediccion_item, parent, false)
+        return PredictionsActivityViewHolder(predictionView)
     }
 
-    override fun onCreateRowHeaderViewHolder(parent: ViewGroup, viewType: Int): AbstractViewHolder {
-        TODO("Not yet implemented")
+    override fun onBindViewHolder(holder: PredictionsActivityViewHolder, position: Int) {
+        val prediction = predictionsList[position]
+        val textViewIdAula = holder.idAula
+        val textViewFechaPrediccion = holder.fechaPrediccion
+        val textViewValorPrediccion = holder.valorPrediccion
+
+        textViewIdAula.text = "Aula: " + prediction.idAula
+        textViewFechaPrediccion.text = "Fecha: " + prediction.fechaPrediccion
+        textViewValorPrediccion.text = "Temperatura: " + prediction.valorPrediccion.toString()
     }
 
-    override fun onCreateCornerView(parent: ViewGroup): View {
-        TODO("Not yet implemented")
-    }
-
-    override fun onBindRowHeaderViewHolder(
-        holder: AbstractViewHolder,
-        rowHeaderItemModel: String?,
-        rowPosition: Int
-    ) {
-        TODO("Not yet implemented")
-    }
-
-    override fun onBindColumnHeaderViewHolder(
-        holder: AbstractViewHolder,
-        columnHeaderItemModel: String?,
-        columnPosition: Int
-    ) {
-        TODO("Not yet implemented")
-    }
-
-    override fun onBindCellViewHolder(
-        holder: AbstractViewHolder,
-        cellItemModel: String?,
-        columnPosition: Int,
-        rowPosition: Int
-    ) {
-        TODO("Not yet implemented")
+    override fun getItemCount(): Int {
+        return predictionsList.size
     }
 
 }

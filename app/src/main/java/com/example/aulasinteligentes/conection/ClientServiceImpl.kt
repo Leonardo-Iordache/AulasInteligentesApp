@@ -18,35 +18,7 @@ import java.util.Calendar
 import java.util.Locale
 
 class ClientServiceImpl{
-    private val serverUrl = ServiceBuilder.getURL()
     private val retrofit = ServiceBuilder.buildService(ClientService::class.java)
-
-
-    suspend fun getNewUser(): Int{
-        var response = 1
-
-        try{
-            Log.d("AAAAA", "HE entrado")
-
-            val call = retrofit.getNewUser()
-            val result = call.body()
-            Log.d("AAAAA", "Correcto: $result")
-            if (call.isSuccessful){
-                response = result ?: 12
-            }
-            else {
-                Log.d("ClientServiceLLL", "La solicitud no fue exitosa: ${call.code()}")
-                val errorBody = call.errorBody()?.string()
-                Log.d("ClientServiceLLL", "Mensaje de error: $errorBody")
-            }
-        } catch (e: Exception){
-            Log.e("ClientServiceLLL", "Error en la solicitud: ${e.message}", e)
-
-        }
-        Log.i("ClientServiceLLL", "Resultado: $response")
-        return response
-    }
-
 
     suspend fun createUser(user: User): Int {
         try {
@@ -212,6 +184,31 @@ class ClientServiceImpl{
         return null
     }
 
+    suspend fun changeWindowState(aulaId: String){
+        Log.i("ClientServiceImpl", "Mandando $aulaId")
+
+        try {
+            retrofit.changeWindowState(aulaId)
+        } catch (e: Exception) {
+            Log.e("ClientServiceImpl", "Excepción al cambiar el estado de la ventana: ${e.message}", e)
+        }
+    }
+
+    suspend fun changeBlindState(aulaId: String){
+        try {
+            retrofit.changeBlindState(aulaId)
+        } catch (e: Exception) {
+            Log.e("ClientServiceImpl", "Excepción al cambiar el estado de la ventana: ${e.message}", e)
+        }
+    }
+
+    suspend fun changeACState(aulaId: String){
+        try {
+            retrofit.changeACState(aulaId)
+        } catch (e: Exception) {
+            Log.e("ClientServiceImpl", "Excepción al cambiar el estado de la ventana: ${e.message}", e)
+        }
+    }
 
     suspend fun getPasillos(): ArrayList<Hall>?{
         val call = retrofit.getPasillos()

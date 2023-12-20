@@ -46,6 +46,12 @@ interface ClientService {
     @GET("getAulas")
     suspend fun getAulas(): Response<ArrayList<Aula>>
 
-    @GET("AulasInteligentes/registrarNuevoUsuario")
-    suspend fun getNewUser(): Response<Int>
+    @GET("ventana")
+    suspend fun changeWindowState(@Query("aulaId") aulaId: String)
+
+    @GET("cortina")
+    suspend fun changeBlindState(@Query("aulaId") aulaId: String)
+
+    @GET("aire")
+    suspend fun changeACState(@Query("aulaId") aulaId: String)
 }

@@ -50,20 +50,15 @@ object ControllerSingleton {
         return restApiService.getPredictionList(fecha)
     }
 
-    fun parseDate(dateString: String): Timestamp {
-        val dateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
-        var timeStamp = Timestamp(System.currentTimeMillis())
+   suspend fun changeWindowState(aulaId: String){
+       restApiService.changeWindowState(aulaId)
+   }
 
-        try {
-            val date = dateFormat.parse(dateString)
-            if (date != null) {
-                timeStamp = Timestamp(date.time)
-            }
-        } catch (e: Exception) {
-            Log.e("DateParser", "Error parsing date: $e")
-        }
-
-        return timeStamp
+    suspend fun changeBlindState(aulaId: String){
+        restApiService.changeBlindState(aulaId)
     }
 
+    suspend fun changeACState(aulaId: String){
+        restApiService.changeACState(aulaId)
+    }
 }

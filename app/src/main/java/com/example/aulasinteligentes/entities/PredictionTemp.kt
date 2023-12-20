@@ -6,9 +6,13 @@ import com.google.gson.annotations.SerializedName
 data class PredictionTemp(
     @SerializedName("idAula")
     @Expose
-    private val idAula: String,
+    val idAula: String,
+
+    @SerializedName("fecha")
+    @Expose
+    val fechaPrediccion: String,
 
     @SerializedName("valor")
     @Expose
-    private val valorPrediccion: Double
+    val valorPrediccion: Double
 )
